@@ -31,12 +31,14 @@ sudo systemctl enable docker
 
 # 编辑 Docker 配置文件，启用远程访问
 echo "配置 Docker 启用远程 API 访问..."
-sudo bash -c 'cat > /etc/docker/daemon.json << EOF
+sudo bash -c 'cat > /etc/docker/daemon.json << EOF                                                     
 {
-  "hosts": [
-    "unix:///var/run/docker.sock",
-    "tcp://0.0.0.0:2375"
-  ]
+"tls": false,
+  "hosts": ["tcp://0.0.0.0:2375", "unix:///var/run/docker.sock"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  }
 }
 EOF'
 
